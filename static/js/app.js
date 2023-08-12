@@ -44,13 +44,47 @@ function init() {
 
 }; 
 
+// Create the demographic information display using the sample metadata 
+function Metadata(selectedValue) {
+
+  // Use D3 to pull all data 
+  d3.json(url).then((data) => {
+
+    // Pull array of metadata containing demographic information
+    var metadata = data.metadata; 
+
+    // Filter the metadata based on the selected value 
+    var filteredData = metadata.filter(result => result.id == selectedValue); 
+
+    // Pull first object from array and assign to variable 
+    var meta = filteredData[0];
+
+    // Console log the first object of metadata 
+    console.log(meta)
+
+    // Remove all child elements from DOM node 
+    d3.select("#sample-metadata").html("");
+
+    // Use Javascript method Object.entries to return array consisting of enumberable propery, 
+    // aka key/value pairs = same function as looping over the property values of the object 
+    Object.entries(meta).forEach(([key,value]) => {
+
+      // Console log the individual key/value pairs
+      console.log(key, value); 
+
+      // Append the key/value pairs to the metadata array 
+      d3.select("#sample-metadata").append("h5").text(`${key}: ${value}`);
+    });
+  });  
+};
+
 // Create the bar chart 
 function hBarChart(selectedValue) { 
 
   // Use D3 to pull all data 
   d3.json(url).then((data) => {
 
-    // Pull an array of samples 
+    // Pull array of samples 
     var samples = data.samples; 
 
     // Filter the samples based on the selected value 
@@ -60,44 +94,28 @@ function hBarChart(selectedValue) {
     var individual = filteredData[0]; 
 
     // Slice the first 10 objects of the sample for plotting 
-    slicedIndividual = individual.slice(0, 10);
+    //slicedIndividual = individual.slice(0, 10);
 
     // Reverse the array to accomodate Plotly's defaults 
-    reversedIndividual = slicedIndividual.reverse(); 
+    //reversedIndividual = slicedIndividual.reverse(); 
 
     // Trace for the data to be plotted 
     var trace = {
-      x: slicedIndividual.sample_values,
-      y: slicedIndividual.otu_ids, 
-      text: slicedIndividual.otu_labels,
+      x: individual.sample_values.slice(0,10).reverse(),
+      y: individual.otu_ids.slice(0,10).map((otu_id) => `OTU ${otu_id}`).reverse(), 
+      text: obj.otu_labels.slice(0,10).reverse(),
       type: "bar",
       orientation: "h"
     };
 
     // Create data array 
-    var traceData = [trace]; 
+    //var traceData = [trace]; 
 
     // Add title to layout 
     var layout = {title: "Top 10 OTUs"}; 
 
     // Render the plot 
-    Plotly.newplot("bar", traceData, layout); 
+    Plotly.newplot("bar", [trace], layout); 
 })}; 
-
-// Create the demographic information display using the sample metadata 
-//function Metadata(selectedValue) {
-
-  // Use D3 to pull all data 
-  //d3.json(url).then((data) => {
-
-    // Pull metadata which contains the demographic information
-    //let metadata = data.metadata; 
-
-    // Filter the metadata based on the selected value 
-    //let filteredData = metadata.filter(result => result.id == selectedValue); 
-
-
- // })
-//}
 
 init(); 
