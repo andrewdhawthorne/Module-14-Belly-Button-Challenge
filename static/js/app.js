@@ -62,7 +62,7 @@ function Metadata(selectedValue) {
     // Console log the first object of metadata 
     console.log(meta)
 
-    // Remove all child elements (erase innerHTML to a blank string) from DOM node so user can make reset their selection 
+    // Clear child elements (erase innerHTML to an empty string) from DOM node when user resets selection 
     d3.select("#sample-metadata").html("");
 
     // Use Javascript method Object.entries to return array consisting of enumberable propery, 
