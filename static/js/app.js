@@ -94,44 +94,46 @@ function hBarChart(selectedValue) {
     var individual = filteredSamples[0]; 
 
     // Slice the first 10 objects of the sample for plotting 
-    slicedIndividual = individual.slice(0, 10);
+    //slicedIndividual = individual.slice(0, 10).reverse();
 
     // Reverse the array to accomodate Plotly's defaults 
-   reversedIndividual = slicedIndividual.reverse(); 
+    //reversedIndividual = slicedIndividual.reverse(); 
 
     // Trace for the data for the horizontal bar chart
-    let trace = [{
-      // Slice the top 10 otus
-      x: reversedIndividualindividual.sample_values,
-      y: reversedIndividualindividual.otu_ids.map((otu_id) => `OTU ${otu_id}`).reverse(),
-      text: reversedIndividualindividual.otu_labels,
-      type: "bar",
-      marker: {
-          //color: "rgb(166,172,237)"
-      //},
-      orientation: "h"
-    }}];
-  
-    // Trace for the data for the horizontal bar chart
-    //let trace = [{
-      // Slice the top 10 otus
-      //x: individual.sample_values.slice(0,10).reverse(),
-      //y: individual.otu_ids.slice(0,10).map((otu_id) => `OTU ${otu_id}`).reverse(),
-      //text: individual.otu_labels.slice(0,10).reverse(),
+    //let trace = {
+      //x: reversedIndividual.sample_values,
+      //y: reversedIndividual.otu_ids,//.map((otu_id) => `OTU ${otu_id}`),
+      //text: reversedIndividual.otu_labels,
       //type: "bar",
       //marker: {
           //color: "rgb(166,172,237)"
       //},
       //orientation: "h"
-    //}];
+    //};
+  
+    // Trace for the data for the horizontal bar chart
+    let trace = [{
+      // Slice the first 10 objects of the sample for plotting and reverse the array to accomodate Plotly's defaults 
+      x: individual.sample_values.slice(0,10).reverse(),
+      y: individual.otu_ids.slice(0,10).map((otu_id) => `OTU ${otu_id}`).reverse(),
+      text: individual.otu_labels.slice(0,10).reverse(),
+      type: "bar",
+      //marker: {
+          //color: "rgb(166,172,237)"
+      //},
+      orientation: "h"
+    }];
+
+    // Create data array 
+    //var traceData = [trace];
 
     // Add title to layout 
-    var layout = {title: "Top 10 OTUs"}; 
+    var layout = {title: "Top 10 OTUs (Operational Taxonomic Units)"}; 
 
     // Use Plotly to plot the data in a bar chart
     Plotly.newPlot("bar", trace, layout);
     });
-}
+};
 
     // Slice the first 10 objects of the sample for plotting 
     //slicedIndividual = individual.slice(0, 10);
@@ -157,5 +159,40 @@ function hBarChart(selectedValue) {
     // Render the plot 
     //Plotly.newplot("bar", traceData, layout); 
 //})}; 
+
+// Creat the bubble chart 
+function BubbleChart(selectedValue) {
+
+  // Use D3 to pull all data 
+  d3.json(url).then((data) => {
+
+    // Pull array of samples 
+    var samples = data.samples; 
+
+    // Filter the samples based on the selected value 
+    var filteredSamples = samples.filter((sample) => sample.id == selectedValue); 
+
+    // Pull sample to chart  
+    var individual = filteredSamples[0]; 
+
+    // Trace for the data for the bubble chart
+    let trace = [{
+      x: individual.otu_ids,
+      y: individual.sample_values,
+      text: individual.otu_labels,
+      mode: "markers", 
+      marker: {
+          size: individual.sample_values,
+          color: individual.otu_ids,
+      }
+    }];
+
+    // Add title to x axis 
+    var layout = {xaxis: "OTU ID"}; 
+
+  // Use Plotly to plot the data in a bubble chart
+  Plotly.newPlot("bubble", trace, layout);
+});
+};
 
 init();
