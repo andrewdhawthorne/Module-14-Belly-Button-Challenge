@@ -38,7 +38,7 @@ function init() {
    Metadata(first_sample);
    hBarChart(first_sample);
    BubbleChart(first_sample);
-   GaugeChart(first_sample);
+   //GaugeChart(first_sample);
   
   }); 
 
@@ -135,7 +135,7 @@ function hBarChart(selectedValue) {
     });
 };
 
-    // Slice the first 10 objects of the sample for plotting 
+// Slice the first 10 objects of the sample for plotting 
     //slicedIndividual = individual.slice(0, 10);
 
     // Reverse the array to accomodate Plotly's defaults 
@@ -183,12 +183,15 @@ function BubbleChart(selectedValue) {
       mode: "markers", 
       marker: {
           size: individual.sample_values,
-          color: individual.otu_ids,
+          color: individual.otu_ids//,
+          //colorscale: "prgn"
       }
     }];
 
     // Add title to x axis 
-    var layout = {xaxis: "OTU ID"}; 
+    var layout = {
+      xaxis: {title: "OTU ID"}
+    }; 
 
   // Use Plotly to plot the data in a bubble chart
   Plotly.newPlot("bubble", trace, layout);
