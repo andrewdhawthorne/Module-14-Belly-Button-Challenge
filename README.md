@@ -32,7 +32,7 @@ In this challenge I built an interactive dashboard to display the **Belly Button
 
 https://github.com/JeremyTallant/belly-button-challenge/blob/main/static/js/app.js#L19 (checking/troubleshooting code, especially setting up dropdown menu and demographics panel)
 
-https://github.com/yeyanwang/belly-button-challenge/blob/main/static/js/app.js (checking/troubleshooting code, especially setting up visualizations and updating output based on new selection)
+https://github.com/yeyanwang/belly-button-challenge/blob/main/static/js/app.js (checking/troubleshooting code, especially setting up visualizations and updating demographics output based on new selection)
 
 https://github.com/mychele-larson/Belly-Button-Challenge/blob/main/static/js/app2.js (reference code)
 
