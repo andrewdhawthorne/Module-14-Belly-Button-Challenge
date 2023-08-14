@@ -6,13 +6,13 @@ d3.json(url).then(function(data) {
     console.log(data);
   });
 
-// Initialize dashboard 
+// Initialize dashboard and activate dropdown menu 
 function init() {
 
   // Use D3 to select dropdown menu
   var dropdownMenu = d3.select("#selDataset"); 
 
-  // Use D3 to get sample names for dropdown menu
+  // Use D3 to call all data 
   d3.json(url).then((data) => {
 
     // Pull array of id names 
@@ -24,7 +24,7 @@ function init() {
       // Console log the values of the ids  
       console.log(id); 
 
-      // Append each value to each id and add as an option to the dropdown menu 
+      // Append each value to each id and add them to the dropdown menu 
       dropdownMenu.append("option").text(id).property("value", id); 
     }); 
 
@@ -44,7 +44,7 @@ function init() {
 // Create the bar chart 
 function hBarChart(selectedValue) { 
 
-  // Use D3 to pull all data 
+  // Use D3 to call all data 
   d3.json(url).then((data) => {
 
     // Pull array of samples 
@@ -53,8 +53,11 @@ function hBarChart(selectedValue) {
     // Filter the samples based on the selected value 
     var filteredSamples = samples.filter((sample) => sample.id == selectedValue); 
 
-    // Pull sample to plot 
+    // Pull first sample to plot 
     var individual = filteredSamples[0]; 
+
+    // Console log the first sample 
+    console.log(individual)
 
     // Trace for the data for the horizontal bar chart
     let trace = [{
@@ -77,7 +80,7 @@ function hBarChart(selectedValue) {
 // Creat the bubble chart 
 function BubbleChart(selectedValue) {
 
-  // Use D3 to pull all data 
+  // Use D3 to call all data 
   d3.json(url).then((data) => {
 
     // Pull array of samples 
@@ -88,6 +91,9 @@ function BubbleChart(selectedValue) {
 
     // Pull sample to chart  
     var individual = filteredSamples[0]; 
+
+    // Console log the first sample to chart 
+    console.log(individual)
 
     // Trace for the data for the bubble chart
     let trace = [{
@@ -115,7 +121,7 @@ function BubbleChart(selectedValue) {
 // Create the demographic information display using the sample metadata 
 function Metadata(selectedValue) {
 
-  // Use D3 to pull all data 
+  // Use D3 to call all data 
   d3.json(url).then((data) => {
 
     // Pull array of metadata containing demographic information
@@ -124,13 +130,13 @@ function Metadata(selectedValue) {
     // Filter the metadata based on the selected value 
     var filteredData = metadata.filter(result => result.id == selectedValue); 
 
-    // Pull first object from array and assign to variable 
+    // Pull sample to display  
     var meta = filteredData[0];
 
     // Console log the first object of metadata 
     console.log(meta)
 
-    // Clear child elements (erase innerHTML to an empty string) from DOM node when user resets selection 
+    // Clear child elements (erase innerHTML to an empty string) to reset demographic panel when new id is selected (otherwise returned results accumulate)
     d3.select("#sample-metadata").html("");
 
     // Use Javascript method Object.entries to return array consisting of enumberable propery, 
